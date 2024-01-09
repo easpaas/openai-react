@@ -15,13 +15,14 @@ const Chat: React.FC = () => {
   const [openai, setOpenai] = useState<any>(null);
 
   useEffect(() => {
+    // TODO: replace initChatBot() with a get request to BE for /config that retrieves open ai api key
     initChatBot();
   }, []);
 
   useEffect(() => {
     setMessages([
       {
-        content: "Hi, I'm your personal assistant. How can I help you?",
+        content: "Hi, I'm Kim, your personal assistant. How can I help you?",
         isUser: false,
       },
     ]);
@@ -33,19 +34,23 @@ const Chat: React.FC = () => {
       dangerouslyAllowBrowser: true,
     });
 
-    // Create an assistant
-    const assistant = await openai.beta.assistants.create({
-      name: "Hockey Expert",
-      instructions: "You are a hockey expert. You specialize in helping others learn about hockey.",
-      tools: [{ type: "code_interpreter" }],
-      model: "gpt-4-1106-preview",
-    });
+
+    // Retrieve an assistant
+    const myAssistant = await openai.beta.assistants.retrieve(
+      "asst_Sqm49eRQGJmrN042RAns5QnO"
+    );
+  
+    // // Create an assistant
+    // const assistant = await openai.beta.assistants.create({
+    //   name: "asst_Sqm49eRQGJmrN042RAns5QnO",
+    //   model: "gpt-4",
+    // });
 
     // Create a thread
     const thread = await openai.beta.threads.create();
 
     setOpenai(openai);
-    setAssistant(assistant);
+    setAssistant(myAssistant);
     setThread(thread);
   };
 
