@@ -15,7 +15,6 @@ const Chat: React.FC = () => {
   const [openai, setOpenai] = useState<any>(null);
 
   useEffect(() => {
-    // TODO: replace initChatBot() with a get request to BE for /config that retrieves open ai api key
     initChatBot();
   }, []);
 
