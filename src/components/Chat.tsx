@@ -40,12 +40,6 @@ const Chat: React.FC = () => {
       "asst_Sqm49eRQGJmrN042RAns5QnO"
     );
   
-    // // Create an assistant
-    // const assistant = await openai.beta.assistants.create({
-    //   name: "asst_Sqm49eRQGJmrN042RAns5QnO",
-    //   model: "gpt-4",
-    // });
-
     // Create a thread
     const thread = await openai.beta.threads.create();
 
