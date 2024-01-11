@@ -21,7 +21,7 @@ const Chat: React.FC = () => {
   useEffect(() => {
     setMessages([
       {
-        content: "Hi, I'm Kim, your personal assistant. How can I help you?",
+        content: "Hello! How can I assist you today?",
         isUser: false,
       },
     ]);
@@ -73,7 +73,6 @@ const Chat: React.FC = () => {
 
     // Wait for the response to be ready
     while (response.status === "in_progress" || response.status === "queued") {
-      console.log("waiting...");
       setIsWaiting(true);
       await new Promise((resolve) => setTimeout(resolve, 5000));
       response = await openai.beta.threads.runs.retrieve(thread.id, run.id);
@@ -89,9 +88,12 @@ const Chat: React.FC = () => {
       .filter((message: any) => message.run_id === run.id && message.role === "assistant")
       .pop();
 
+    // TODO: if last message, send json data to backend 
+    // DILEMMA: determine when the thread is done 
+    // ideas: manually check each message if there exists '{}' as curly brackets denote JSON data from assistant
+
     // Print the last message coming from the assistant
     if (lastMessage) {
-      console.log(lastMessage.content[0]["text"].value);
       setMessages([...messages, createNewMessage(lastMessage.content[0]["text"].value, false)]);
     }
   };
@@ -104,14 +106,16 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <Container>
-      <Grid container direction="column" spacing={2} paddingBottom={2}>
-        {messages.map((message, index) => (
-          <Grid item alignSelf={message.isUser ? "flex-end" : "flex-start"} key={index}>
-            <Message key={index} message={message} />
-          </Grid>
-        ))}
-      </Grid>
+    <Container style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
+      <Container style={{ height: '75vh', overflow: 'scroll' }}>
+        <Grid container direction="column" spacing={2} padding={2}>
+          {messages.map((message, index) => (
+            <Grid item alignSelf={message.isUser ? "flex-end" : "flex-start"} key={index}>
+              <Message key={index} message={message} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
       <Grid container direction="row" paddingBottom={5} justifyContent={"space-between"}>
         <Grid item sm={11} xs={9}>
           <TextField
