@@ -5,6 +5,7 @@ import Message from "./Message";
 import OpenAI from "openai";
 import { MessageDto } from "../models/MessageDto";
 import SendIcon from "@mui/icons-material/Send";
+import '../App.css';
 
 const Chat: React.FC = () => {
   const [isWaiting, setIsWaiting] = useState<boolean>(false);
@@ -106,17 +107,15 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <Container style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
-      <Container style={{ height: '75vh', overflow: 'scroll' }}>
-        <Grid container direction="column" spacing={2} padding={2}>
-          {messages.map((message, index) => (
-            <Grid item alignSelf={message.isUser ? "flex-end" : "flex-start"} key={index}>
-              <Message key={index} message={message} />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-      <Grid container direction="row" paddingBottom={5} justifyContent={"space-between"}>
+    <Container>
+      <Grid container direction="column" spacing={2} padding={2}>
+        {messages.map((message, index) => (
+          <Grid item alignSelf={message.isUser ? "flex-end" : "flex-start"} key={index}>
+            <Message key={index} message={message} />
+          </Grid>
+        ))}
+      </Grid>
+      <Grid container direction="row" paddingBottom={5} paddingTop={2} justifyContent={"space-between"}>
         <Grid item sm={11} xs={9}>
           <TextField
             label="Type your message"
@@ -126,11 +125,11 @@ const Chat: React.FC = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
-          />
+            />
           {isWaiting && <LinearProgress color="inherit" />}
         </Grid>
         <Grid item sm={1} xs={3}>
-          <Button variant="contained" size="large" color="primary" onClick={handleSendMessage} disabled={isWaiting}>
+          <Button variant="contained" size="large" onClick={handleSendMessage} disabled={isWaiting}>
             {isWaiting && <CircularProgress color="inherit" />}
             {!isWaiting && <SendIcon fontSize="large" />}
           </Button>
