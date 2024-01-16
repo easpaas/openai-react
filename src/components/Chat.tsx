@@ -112,7 +112,6 @@ const Chat: React.FC = () => {
     if (lastMessage) {
       setMessages([...messages, createNewMessage(lastMessage.content[0]["text"].value, false)]);
     }
-
     // ************************* REMOVE BELOW CODE BEFORE PUSHING TO PRODUCION
     // simulate ai responses for demo purposes only
     // simulateAIResponse();
@@ -136,15 +135,15 @@ const Chat: React.FC = () => {
   // }
 
   return (
-    <Container style={{ height: '90vh', position: 'relative' }}>
-      <Grid ref={chatWindowRef} style={{ height: '80%', overflow: 'scroll', flexWrap: 'nowrap'  }} container direction="column" spacing={2} padding={2}>
+    <Container style={{ height: '60vh', position: 'relative' }}>
+      <Grid ref={chatWindowRef} style={{ height: '70%', overflow: 'scroll', flexWrap: 'nowrap'  }} container direction="column" spacing={2} padding={2}>
         {messages.map((message, index) => (
           <Grid item alignSelf={message.isUser ? "flex-end" : "flex-start"} key={index}>
             <Message key={index} message={message} />
           </Grid>
         ))}
       </Grid>
-      <Grid  style={{ position: 'absolute', bottom: '0' }} container direction="row" paddingBottom={5} paddingTop={2} justifyContent={"space-between"}>
+      <Grid  style={{ position: 'absolute', bottom: '0', width: '90%', backgroundColor: 'white', }} container direction="row" paddingBottom={5} paddingTop={2} justifyContent={"space-between"}>
         <Grid item sm={11} xs={9}>
           <TextField
             label="Type your message"
